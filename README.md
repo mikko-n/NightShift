@@ -28,15 +28,16 @@ Semi-ordered folders of misc. build pics
     * Hall sensor/
     * Nano-Backbone/
     * Rear derailleur related/
-
 Schematics to build subsystems
   * Fritzing/
-
+General materials/ideas/datasheets folder
+  * Materiaali/
+    * datasheets/
+    * examples/
 Software (arduino firmware & control software)
   * Säätösofta/
     * NightShift/
     * NightShift_control/
-    
 Credits
 -------
 As always, I'm standing on the shoulders of giants. There are some people & other parties involved and without you
