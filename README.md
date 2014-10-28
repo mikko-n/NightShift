@@ -18,6 +18,8 @@ the bicycle's seat post.
 
 ![Parts](/Fritzing/nightshift-hardware-general-diagram.png)
 
+About this repository
+---------------------
 This repository following structure:
 
 Semi-ordered folders of misc. build pics
