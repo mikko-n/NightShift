@@ -20,24 +20,24 @@ the bicycle's seat post.
 
 About this repository
 ---------------------
-This repository following structure:
+This repository has the following structure:
 
-Semi-ordered folders of misc. build pics
+**Semi-ordered folders of misc. build pics:**
   * Build pics/
     * Control buttons/
     * Hall sensor/
     * Nano-Backbone/
     * Rear derailleur related/
 
-Schematics to build subsystems
+**Schematics to build subsystems:**
   * Fritzing/
 
-General materials/ideas/datasheets folder
+**General materials/ideas/datasheets folder:**
   * Materiaali/
     * datasheets/
     * examples/
 
-Software (arduino firmware & control software)
+**Software (arduino firmware & control software):**
   * Säätösofta/
     * NightShift/
     * NightShift_control/
