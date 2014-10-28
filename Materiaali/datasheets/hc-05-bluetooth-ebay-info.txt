@@ -1,0 +1,40 @@
+http://www.ebay.co.uk/itm/191304987677
+
+Product Details:
+HC-05 Wireless Bluetooth Transceiver Module 
+Condition: New
+
+Product Features:
+The core module using HC-05 from the module, leads to interface to VCC, GND, TXD, RXD, the KEY pin and LED status leads to the foot (STATE)
+LED indication Bluetooth connection status, flash that there is no Bluetooth connection, slow flash into the AT mode, dual-flash Bluetooth is connected and open port
+Base plate set anti-reverse diode with 3.3V LDOs, input voltage: 3.6~6V, unpaired: about 30mA, paired : 10mA more than 7V is not allowed
+The interface power level 3.3V, can be directly connected a variety of microcontroller ( 51 AVR, the PIC, ARM, the MSP430) and 5V MCU
+Data bits, 1 stop bit, you can set the parity communication format, which is the most common communication format does not support other formats
+Can set the parameters and query information via the AT command mode by pulling up 34 feet
+Can switch host and slave mode by changing AT command, the specified equipment can be connected through the AT command
+Support standard baud rate from 4800 bps~1382400 bps
+User can connect 3.3 to 5VDC and connect TX and RX to your control IO (general 3.3 to 5V digital input output of MCU or arduino IO is ok, or general TLL IO)
+Easy to connect this module with PC, just search and key "1234" passcode
+With white SMD LED on the adapter board, can see the Bluetooth connection status
+Bluetooth Distance: 10M
+After pairing when full-duplex serial without having to know any of the Bluetooth protocol to support
+
+Product Functions:
+Bluetooth protocal: Bluetooth Specification v2.0+EDR
+Frequency: 2.4GHz ISM band
+Modulation: GFSK(Gaussian Frequency Shift Keying)
+Emission power: =4dBm, Class 2
+Sensitivity: =-84dBm at 0.1% BER
+Speed: Asynchronous: 2.1Mbps(Max) / 160 kbps, Synchronous: 1Mbps/1Mbps
+Security: Authentication and encryption
+Profiles: Bluetooth serial port
+Power supply: +3.3VDC 50mA
+Working temperature: -20 ~ +75 Centigrade
+
+Color and more details are shown as pictures
+PLS NOTE that due to lighting effects, monitor's brightness/ contrass settings ect, there could be  some slight differences in the color tone of the pictures and the actual item!
+
+Package Included:
+1 x HC-05 Wireless Bluetooth Transceiver Module
+
+approx size 40mm x 19mm x 8mm with headers
