@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Derailleur.cpp" />
+    <ClCompile Include="NightShift_Util.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Derailleur.h" />
+    <ClInclude Include="NightShift_Util.h" />
+    <ClInclude Include="Visual Micro\.Bouncetest.vsarduino.h" />
+    <ClInclude Include="Visual Micro\.NightShift_v3.vsarduino.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NightShift_v3.ino" />
+  </ItemGroup>
+</Project>

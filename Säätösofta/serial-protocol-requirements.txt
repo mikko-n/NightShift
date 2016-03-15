@@ -1,0 +1,28 @@
+Control software action			to	Serial message		Firmware action
+----------------------------------------------------------------------------------------
+connect					->	I			MODE=SERIALSETUP
+change status to 'connecting'
+change gear count			<-	G,n			send gear count
+select current gear			<-	C,n			send current gear
+change status to 'connected'		<-	O			ready
+									
+disconnect				->	D			MODE=DRIVE
+change status to 'not connected'	<-	O			confirm disconnect
+
+gear n selected				->	C,n			Change current gear
+					<-	O			change complete
+
+add gear to cassette			->	G,n			set gear count to n
+					<-	O			change complete
+
+remove gear from cassette		->	G,n			set gear count to n
+					<-	O			change complete
+
+adjust derailleur in			->	A,I			adjust derailleur position in
+					<-	O			change complete
+
+adjust derailleur out			->	A,O			adjust derailleur position out
+					<-	O			change complete
+
+todo:
+- show hall/rotation sensor status
