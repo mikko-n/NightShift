@@ -5,9 +5,8 @@
 #endif
 
 #include "Derailleur.h"
-#include "Servo.h" // ugly forced include in linker settings
+#include <Servo.h>
 #include "NightShift_Util.h"
-
 
 #define PIN_SERVO_PWM 6
 #define PIN_SERVO_POWER_TOGGLE 5
@@ -143,7 +142,6 @@ void Derailleur::gearDown(int count) {
 		_derailleur_currentGear--;
 		NightShift_Util::sendSerialCurrentGear(_derailleur_currentGear);
 	}
-
 }
 
 /*
@@ -187,8 +185,6 @@ void Derailleur::gearTo(int targetGear) {
 		gearDown(downShifts);
 	}
 }
-
-
 
 /**
 * Function to map servo potentiometer data to degrees

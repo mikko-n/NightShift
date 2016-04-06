@@ -4,7 +4,6 @@
 * Electromechanical bicycle rear derailleur project
 */
 
-#include <Servo.h>
 #include "NightShift_Util.h"
 #include "Derailleur.h"
 #include <Bounce2.h>
@@ -25,7 +24,6 @@ byte buttonPins[] = { PIN_GEARUP, PIN_GEARDOWN };
 
 Derailleur derailleur;
 int _gearsToSwitch = 1; // how many gears to switch
-
 
 unsigned long _modeChangeTimer;
 unsigned long _modeChangeInterval = 4000L; // 4 sec
@@ -93,7 +91,7 @@ bool initButtons() {
 	btn_down.attach(PIN_GEARDOWN);
 	btn_down.interval(DEBOUNCE_MS);
 
-	_modeChangeTimer = millis();
+	ResetModeChangeTimer();
 
 	return true;
 }
@@ -121,7 +119,6 @@ void printSerialCommands() {
  * ******** INIT METHODS & SETUP END HERE *************
  */
 
-
 /**
  * Method to update button states (could maybe be triggered with timer interrupt?)
  */
@@ -143,6 +140,14 @@ void loop()
 }
 
 /**
+ * Convenience method to reset mode change timer
+ */
+void ResetModeChangeTimer() {
+    Serial.println("Mode change timer reset");
+    _modeChangeTimer = millis();
+}
+
+/**
  * Method to check if operation mode should be changed between DRIVE and ADJUST.
  * Sets _queueModeChange -boolean flag (if not already set)
  * and returns true, if mode should be changed
@@ -155,8 +160,7 @@ bool checkOperationModeChange() {
 		
 		// has timer wrapped around? if, just reset
 		if (millis() < _modeChangeTimer) {
-			Serial.println("Mode change timer reset");
-			_modeChangeTimer = millis();
+			ResetModeChangeTimer();			
 		}
 		//Serial.print("millis(): ");
 		//Serial.print(millis());
@@ -173,14 +177,14 @@ bool checkOperationModeChange() {
 		// if both buttons pressed long enough, reset timer and set mode change flag, if not already set
 		if (!_queueModeChange) {
 			Serial.println("checkOperationModeChange() - mode change queued");
-			_modeChangeTimer = millis();
+			ResetModeChangeTimer();
 			_queueModeChange = true;
 		}
 		return true;
 	}
 
 	// both buttons not pressed
-	_modeChangeTimer = millis();
+	ResetModeChangeTimer();
 	return false;
 }
 
@@ -413,5 +417,3 @@ void driveModeFunctions() {
 void adjustModeFunctions() {
 
 }
-
-
