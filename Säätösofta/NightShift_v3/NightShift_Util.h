@@ -14,7 +14,7 @@ namespace NightShift_Util {
 	void sendSerialOK();
 	void sendSerialGearCount(int gears);
 	void sendSerialCurrentGear(int gear);
-	
+	void sendSerialGearPosition(int position);
 };
 
 

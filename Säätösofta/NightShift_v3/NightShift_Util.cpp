@@ -30,5 +30,9 @@ namespace NightShift_Util {
 		Serial.println(gear);
 	}
 	
+    void sendSerialGearPosition(int position) {
+        Serial.print("P"); // position
+        Serial.println(position);
+    }
 	
 }

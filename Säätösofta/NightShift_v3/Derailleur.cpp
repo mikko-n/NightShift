@@ -20,17 +20,39 @@ int servo_high_limit = 314; // servo/derailleur physical HIGH limit, potentiomet
 int servo_low_limit_angle, servo_high_limit_angle; // servo/derailleur limit angles
 
 Derailleur::Derailleur()
-	: _derailleur_gearCount(7)
-	, _derailleur_currentGear(3) // start from middle
+	: _derailleur_gearCount(DERAILLEUR_INITGEARCOUNT)
+	, _derailleur_currentGear(DERAILLEUR_INITGEARCOUNT/2) // start from middle
 {
+    int servoposition = servo_low_limit;
+    int positionInterval = (servo_high_limit - servo_low_limit) / _derailleur_gearCount;
+    
+    // init gear position array with somewhat sane values
+    for (int i=0;i<DERAILLEUR_MAX_GEARCOUNT;i++) {
+        _derailleur_gearPositions[i] = servoposition;
+        servoposition += positionInterval;
+    }
+    
 	// todo: init servo	
 }
 
 //void Derailleur::attach(int servoPowerPin) {	
 //}
 
-void Derailleur::setGearCount(int gears) {
-	this->_derailleur_gearCount = gears;
+void Derailleur::setGearCount(int gears) {    
+    if (gears < DERAILLEUR_MAX_GEARCOUNT) {
+        this->_derailleur_gearCount = gears;
+    } else {
+        this->_derailleur_gearCount = DERAILLEUR_MAX_GEARCOUNT;
+    }
+}
+
+bool Derailleur::setCurrentGearPosition(int position) {
+    if (servo_low_limit <= position && position <= servo_high_limit) {
+        this->_derailleur_gearPositions[getCurrentGear()] = position;
+        NightShift_Util::sendSerialGearPosition(position);
+        return true;
+    }
+    return false;
 }
 
 int Derailleur::getGearCount() {
@@ -39,6 +61,17 @@ int Derailleur::getGearCount() {
 
 int Derailleur::getCurrentGear() {
 	return this->_derailleur_currentGear;
+}
+
+int Derailleur::getCurrentGearPosition() {
+    return this->_derailleur_gearPositions[getCurrentGear()];
+}
+
+int Derailleur::getGearPosition(int gear) {
+    if (gear <= this->_derailleur_gearCount) {
+        return this->_derailleur_gearPositions[gear];
+    }
+    return 0;
 }
 
 /**
@@ -57,8 +90,7 @@ bool Derailleur::initServo(bool hasFeedbackLoop, bool cutPowerWhenIdle) {
 
 	int raw = analogRead(PIN_SERVO_WIPER_POSITION);
 	_servoPos = this->servoRawToDegrees(raw);    // read servo initial position !! TODO: needs adjustment, maybe do some averaging
-	_servoPos = 120; // just set it to some value to get a working system...
-
+	
 	Serial.print("Servo pin setup done, initial position = ");
 	Serial.print(_servoPos);
 	Serial.print(", raw value from servo = ");
@@ -193,5 +225,6 @@ void Derailleur::gearTo(int targetGear) {
 * Note! Derailleur range min value = 58 & max value = 207
 */
 int servoRawToDegrees(int measurement) {
-	return map(measurement, 180, 320, 0, 180); // map servo position raw data from 177-365 => 0-180
+    return 120; // currently just set some sane value to get a working system...
+	//return map(measurement, 180, 320, 0, 180); // map servo position raw data from 177-365 => 0-180
 }

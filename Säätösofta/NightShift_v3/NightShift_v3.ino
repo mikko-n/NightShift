@@ -143,7 +143,7 @@ void loop()
  * Convenience method to reset mode change timer
  */
 void ResetModeChangeTimer() {
-    Serial.println("Mode change timer reset");
+    //Serial.println("Mode change timer reset");
     _modeChangeTimer = millis();
 }
 
@@ -204,10 +204,16 @@ void checkModeChangeFromButtons() {
 			if (_operationMode == MODE_DRIVE) {
 				_operationMode = MODE_ADJUST;
 				Serial.println("MODE_ADJUST");
+                
+                for (int i=0;i<derailleur.getGearCount();i++) {
+                    Serial.print(i+1);
+                    NightShift_Util::sendSerialGearPosition(derailleur.getGearPosition(i));
+                }	
 			}
 			else if (_operationMode == MODE_ADJUST) {
 				_operationMode = MODE_DRIVE;
 				Serial.println("MODE_DRIVE");
+                // todo: save gear position data
 			}
 			_queueModeChange = false;
 			_modeJustChanged = true;
@@ -255,7 +261,13 @@ void checkSerialCommands() {
 			_operationMode = MODE_SERIALSETUP;
 			Serial.println("Mode: serial setup");
 			NightShift_Util::sendSerialGearCount(derailleur.getGearCount());			
-			NightShift_Util::sendSerialCurrentGear(derailleur.getCurrentGear());			
+			NightShift_Util::sendSerialCurrentGear(derailleur.getCurrentGear());
+            
+            for (int i=0;i<derailleur.getGearCount();i++) {
+                Serial.print(i+1);
+                NightShift_Util::sendSerialGearPosition(derailleur.getGearPosition(i));
+            }	
+            	
 			NightShift_Util::sendSerialOK(); // ok, ready
 		}
 		// print help message
@@ -415,5 +427,70 @@ void driveModeFunctions() {
  * Method to handle drive-time adjustments (MODE_ADJUST)
  */
 void adjustModeFunctions() {
+    // check if mode was just changed to skip unintentional
+	// adjustments from mode change button release
+	if (!_modeJustChanged) {      
+        // handle gear adjustments
+		if (btn_up.rose()) {
+			Serial.print("adjustModeFunctions() - btnUP released");
+
+			// up released while down pressed, increment queue gear change counter
+			if (!btn_down.read()) {
+				Serial.println(" while btnDOWN still pressed");	
+                Serial.println("-> save & previous gear");
+                derailleur.gearDown(1);			
+				// _modeChangeTimer = millis(); // just playing safe, reset mode change counter
+                _modeJustChanged = true;
+			}
+			else {
+				// up button released, adjust derailleur position outwards
+				Serial.print(", moving derailleur outwards for gear ");		
+                Serial.print(derailleur.getCurrentGear());
+                Serial.print(" from position ");
+                int currentGearPos = derailleur.getCurrentGearPosition();
+                int newGearPos = currentGearPos + 10;
+                Serial.print(currentGearPos);
+                Serial.print(" to ");
+                Serial.print(newGearPos);
+                if (derailleur.setCurrentGearPosition(newGearPos)) {
+                    Serial.println(" -> Success");
+                }else {
+                    Serial.println(" -> Fail");
+                }
+                
+			}
+		}
+
+		if (btn_down.rose()) {
+			Serial.print("adjustModeFunctions() - btnDOWN released");
+
+			if (!btn_up.read()) {
+				Serial.println(" while btnUP still pressed");
+                Serial.println("-> save & next gear");
+                derailleur.gearUp(1);
+                _modeJustChanged = true;
+				
+			}
+			else {
+				Serial.print(", moving derailleur inwards for gear ");
+				Serial.print(derailleur.getCurrentGear());
+                Serial.print(" from position ");
+                int currentGearPos = derailleur.getCurrentGearPosition();
+                int newGearPos = currentGearPos - 10;
+                Serial.print(currentGearPos);
+                Serial.print(" to ");
+                Serial.print(newGearPos);
+                if (derailleur.setCurrentGearPosition(newGearPos)) {
+                    Serial.println(" -> Success");
+                }else {
+                    Serial.println(" -> Fail");
+                }
+			}
+		}
+    }
+	else {
+		_modeJustChanged = false;
+		
+    }
 
 }
